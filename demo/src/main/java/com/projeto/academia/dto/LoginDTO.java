@@ -1,4 +1,4 @@
-package com.projeto.academia.security;
+package com.projeto.academia.dto;
 
 import javax.validation.constraints.NotNull;
 
