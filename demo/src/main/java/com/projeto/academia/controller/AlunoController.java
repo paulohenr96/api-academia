@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projeto.academia.dto.UsuarioDTO;
+import com.projeto.academia.model.Aluno;
 import com.projeto.academia.model.Usuario;
 import com.projeto.academia.service.AlunoServiceImpl;
 
@@ -45,7 +46,7 @@ private final AlunoServiceImpl alunoService;
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> salvar(@Valid @RequestBody Usuario aluno){
+	public ResponseEntity<String> salvar(@Valid @RequestBody Aluno aluno){
 		
 		alunoService.salvar(aluno);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);

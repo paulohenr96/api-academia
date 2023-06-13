@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projeto.academia.security.LoginDTO;
+import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.security.Sessao;
 import com.projeto.academia.service.UsuarioServiceImpl;
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.dto.UsuarioDTO;
 import com.projeto.academia.exception.UserNotFoundException;
 import com.projeto.academia.model.Role;
@@ -23,7 +24,6 @@ import com.projeto.academia.model.Usuario;
 import com.projeto.academia.repository.UsuarioRepository;
 import com.projeto.academia.security.Constantes;
 import com.projeto.academia.security.CriadorToken;
-import com.projeto.academia.security.LoginDTO;
 import com.projeto.academia.security.ObjectToken;
 import com.projeto.academia.security.Sessao;
 
