@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class CriadorToken {
 
 	
-	public static String criarToken(String prefixo,String key,ObjectToken objeto) {
+	public static String criarTokenNovo(ObjectToken objeto) {
 		ObjectToken objectToken=new ObjectToken();
 		
 		JwtBuilder setExpiration = Jwts.builder().setExpiration(objeto.getDataFinal());
@@ -25,11 +25,11 @@ public class CriadorToken {
 		
 		JwtBuilder claim = setSubject.claim(Constantes.ROLES_AUTHORITIES, objeto.getRoles());
 		
-		String compact = claim.signWith(SignatureAlgorithm.HS256, key).compact();
+		String compact = claim.signWith(SignatureAlgorithm.HS256, Constantes.PALAVRA_SECRETA).compact();
 		
 		
 		
-		return prefixo.concat(" ").concat(compact);
+		return Constantes.PREFIXO_TOKEN.concat(" ").concat(compact);
 	}
 
 	public static ObjectToken criarToken(String chave) {

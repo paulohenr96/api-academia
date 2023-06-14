@@ -17,7 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
 	
 	@Query("from Usuario where username= :username")
-	public Usuario loadByUserName(String username);
+	public Optional<Usuario> loadByUserName(String username);
 	
 	
 	@Query("Select u from Usuario u JOIN u.roles r WHERE r.role='ROLE_ALUNO'")

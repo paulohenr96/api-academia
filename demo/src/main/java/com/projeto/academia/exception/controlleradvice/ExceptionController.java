@@ -3,6 +3,7 @@ package com.projeto.academia.exception.controlleradvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.projeto.academia.exception.MensalidadePagaException;
 import com.projeto.academia.exception.TratarErros;
 import com.projeto.academia.exception.UserNotFoundException;
 
@@ -58,5 +60,35 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
 	}
 	
+	@ExceptionHandler (MensalidadePagaException.class)
+	public ResponseEntity<Object> handleMensalidadePagaException(MensalidadePagaException ex,
+			 WebRequest request){
+		
+		
+		return new ResponseEntity<>(
+				new TratarErros(HttpStatus.CONFLICT, ex.getMessage())
+				,HttpStatus.CONFLICT);
+			
+	}
+	@ExceptionHandler (IllegalArgumentException.class)
+	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex,
+			 WebRequest request){
+		
+		
+		return new ResponseEntity<>(
+				new TratarErros(HttpStatus.NOT_ACCEPTABLE, ex.getMessage())
+				,HttpStatus.NOT_ACCEPTABLE);
+			
+	}
+	
+	@ExceptionHandler (PSQLException.class)
+	public ResponseEntity<Object> handlePSQLException(PSQLException ex,
+			 HttpStatus status, WebRequest request){
+		
+		return new ResponseEntity<>(
+				new TratarErros(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage())
+				,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+	}
 
 }

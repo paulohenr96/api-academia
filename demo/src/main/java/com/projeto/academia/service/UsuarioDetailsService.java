@@ -1,6 +1,7 @@
 package com.projeto.academia.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,20 +27,17 @@ public class UsuarioDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		 Usuario usuario = usuarioRepository.loadByUserName(username);
-		 System.out.println(usuario);
-			if (usuario == null) {
-				throw new UsernameNotFoundException(username);
-			}	
-		List<SimpleGrantedAuthority> collect =usuario.getRoles()
-				.stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRole()))
-				.collect(Collectors.toList());
-													
-		collect.forEach(c->System.out.println(c.getAuthority()));
-		UserDetails userDetails = new User(username, usuario.getPassword(), collect);
 		
-		return userDetails;
+		
+			
+	
+		
+		return usuarioRepository.loadByUserName(username)
+				.map(u -> new User(u.getUsername(),u.getPassword(),u.getRoles()
+						.stream()
+						.map(role -> new SimpleGrantedAuthority(role.getRole()))
+						.collect(Collectors.toList())))
+		.orElseThrow(()->new UsernameNotFoundException(username));
 	}
 
 }

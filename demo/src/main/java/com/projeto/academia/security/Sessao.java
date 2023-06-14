@@ -20,6 +20,14 @@ public class Sessao {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+	public Sessao(String token, String username) {
+		super();
+		this.token = token;
+		this.username = username;
+	}
 	
-	
+	public Sessao() {
+		// TODO Auto-generated constructor stub
+	}
 }
