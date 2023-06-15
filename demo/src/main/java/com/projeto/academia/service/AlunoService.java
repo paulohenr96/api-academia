@@ -1,12 +1,19 @@
 package com.projeto.academia.service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.projeto.academia.dto.MensalidadeDTO;
+import com.projeto.academia.dto.PaginacaoDTO;
 import com.projeto.academia.exception.MensalidadePagaException;
 import com.projeto.academia.exception.UserNotFoundException;
 import com.projeto.academia.model.Aluno;
@@ -33,9 +40,11 @@ public class AlunoService {
 		alunoRepository.save(aluno);
 	}
 
-	public List<Aluno> findAllAluno() {
+	public Page<Aluno> findAllAluno(int page,int size) {
 		// TODO Auto-generated method stub
-		return alunoRepository.findAll();
+		PageRequest of = PageRequest.of(page, size);
+	
+		return 	alunoRepository.findAll(of) ;
 	}
 
 	public Aluno findAlunoById(Long id) {
@@ -99,9 +108,16 @@ public class AlunoService {
 		return "ok";
 	}
 
-	public List<Aluno> findAllAlunosDevedores(int mes) {
+	public PaginacaoDTO findAllAlunosDevedores(int mes, int page, int size) {
 		// TODO Auto-generated method stub
+		Long linhas = alunoRepository.contarTotalAlunosDevedores(mes);
+		int totalPaginas=(int) (linhas%size==0 ? linhas/size : linhas/size + 1);
 		
-		return alunoRepository.findAllAlunosDevedores(mes);
+		
+		int offset=page;
+		List<Aluno> findAllAlunosDevedores = alunoRepository.findAllAlunosDevedores(mes,offset,size);
+		
+		PaginacaoDTO paginacaoDTO= new PaginacaoDTO(findAllAlunosDevedores, page, size, linhas, totalPaginas);
+		return paginacaoDTO;
 	}
 }

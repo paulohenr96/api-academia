@@ -1,10 +1,13 @@
 package com.projeto.academia.controller;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projeto.academia.dto.MensalidadeDTO;
+import com.projeto.academia.dto.PaginacaoDTO;
 import com.projeto.academia.dto.UsuarioDTO;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.model.Mensalidade;
@@ -38,12 +43,12 @@ private final AlunoService alunoService;
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
 		
-		return new ResponseEntity<Object>(alunoService.removerAluno(id),HttpStatus.OK);
+		return new ResponseEntity<Object>(alunoService.removerAluno(id),HttpStatus.NO_CONTENT);
 	}
 	@GetMapping
-	public ResponseEntity<List<Aluno>> getAllAlunos(){
+	public ResponseEntity<Page<Aluno>> getAllAlunos(@RequestParam("page") int page,@RequestParam("size") int size){
 		
-		return new ResponseEntity<List<Aluno>>(alunoService.findAllAluno(),HttpStatus.OK);
+		return new ResponseEntity<>(alunoService.findAllAluno(page,size),HttpStatus.OK);
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> getAluno(@PathVariable Long id){
@@ -76,7 +81,7 @@ private final AlunoService alunoService;
 	@DeleteMapping("/mensalidade/{idMensalidade}")
 	public ResponseEntity<Object> deleteMensalidadeAluno(@PathVariable Long idMensalidade){
 		
-		return new ResponseEntity<>(alunoService.deleteMensalidadeAluno(idMensalidade),HttpStatus.OK);
+		return new ResponseEntity<>(alunoService.deleteMensalidadeAluno(idMensalidade),HttpStatus.NO_CONTENT);
 
 	}
 	
@@ -87,8 +92,11 @@ private final AlunoService alunoService;
 	}
 	
 	@GetMapping("/devedores/{mes}")
-	public ResponseEntity<List<Aluno>> getAllAlunosDevedores(@PathVariable int mes){
+	public ResponseEntity<PaginacaoDTO<Aluno>> getAllAlunosDevedores(
+			@PathVariable int mes
+			,@RequestParam("page") int page
+			,@RequestParam("size") int size){
 		
-		return new ResponseEntity<List<Aluno>>(alunoService.findAllAlunosDevedores( mes),HttpStatus.OK);
+		return new ResponseEntity<PaginacaoDTO<Aluno>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
 	}
 }

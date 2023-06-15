@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,9 @@ public class UsuarioServiceImpl {
 		usuarioRepository.save(usuario);
 	}
 
-	public List<UsuarioDTO> findAll() {
+	public List<UsuarioDTO> findAll(PageRequest of) {
 
-		return usuarioRepository.findAll().stream()
+		return usuarioRepository.findAll(of).stream()
 				.map(usuario -> new UsuarioDTO(usuario.getId(), usuario.getName(),
 				usuario.getEmail(), usuario.getSecondName(), usuario.getRoles()))
 				.collect(Collectors.toList());
