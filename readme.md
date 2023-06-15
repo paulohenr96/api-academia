@@ -7,7 +7,7 @@ Esta é uma API para gerenciamento de academias, oferecendo recursos para manipu
 - Java
 - Spring Boot
 - Spring Data JPA
-- MySQL
+- PostgresSQL
 - Maven
 - Spring Security
 - JSON Web Token (JWT)
@@ -22,7 +22,7 @@ Esta é uma API para gerenciamento de academias, oferecendo recursos para manipu
 3. Clone este repositório em sua máquina local:
 
 ```
-git clone https://github.com/seu-usuario/seu-projeto.git
+git clone https://github.com/paulohenr96/api-academia.git
 ```
 
 4. Importe o projeto em sua IDE de preferência (Eclipse, IntelliJ, etc.) como um projeto Maven existente.
