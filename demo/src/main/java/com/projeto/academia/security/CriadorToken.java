@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class CriadorToken {
 
@@ -32,19 +36,21 @@ public class CriadorToken {
 		return Constantes.PREFIXO_TOKEN.concat(" ").concat(compact);
 	}
 
-	public static ObjectToken criarToken(String chave) {
+	public static ObjectToken criarToken(String chave) throws Exception{
 		// TODO Auto-generated method stub
 		
-		Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(Constantes.PALAVRA_SECRETA).parseClaimsJws(chave);
+		ObjectToken objectToken;
+			Jws<Claims> parseClaimsJws = Jwts.parser().setSigningKey(Constantes.PALAVRA_SECRETA).parseClaimsJws(chave);
+			
+			Claims body = parseClaimsJws.getBody();
+			
+			List<String> roles =(List<String>) body.get(Constantes.ROLES_AUTHORITIES);
+			
+			objectToken = new ObjectToken();
+			objectToken.setRoles(roles);
+			objectToken.setSubject(body.getSubject());
+			return objectToken;
+
 		
-		Claims body = parseClaimsJws.getBody();
-		
-		List<String> roles =(List<String>) body.get(Constantes.ROLES_AUTHORITIES);
-		
-		ObjectToken objectToken=new ObjectToken();
-		objectToken.setRoles(roles);
-		objectToken.setSubject(body.getSubject());
-		
-		return objectToken;
 	}
 }

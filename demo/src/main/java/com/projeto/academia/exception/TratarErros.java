@@ -35,6 +35,8 @@ public class TratarErros {
 	public void setErros(List<String> erros) {
 		this.erros = erros;
 	}
+
+
 	
 	
 	

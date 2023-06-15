@@ -12,6 +12,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -22,7 +23,7 @@ import com.projeto.academia.exception.UserNotFoundException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
 	@Override
@@ -53,10 +54,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler (MalformedJwtException.class)
-	public ResponseEntity<Object> handleMalformedJwtException(MalformedJwtException ex,
-			 WebRequest request){
+	public ResponseEntity<Object> handleMalformedJwtException(MalformedJwtException ex){
 		
-		return new ResponseEntity<>(new TratarErros(HttpStatus.NOT_FOUND, ex.getMessage()),HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(new TratarErros(HttpStatus.UNAUTHORIZED, ex.getMessage()),HttpStatus.UNAUTHORIZED);
 
 	}
 	
@@ -81,9 +81,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 			
 	}
 	
-	@ExceptionHandler (PSQLException.class)
-	public ResponseEntity<Object> handlePSQLException(PSQLException ex,
-			 HttpStatus status, WebRequest request){
+	@ExceptionHandler (Exception.class)
+	public ResponseEntity<Object> handlePSQLException(Exception ex
+			){
 		
 		return new ResponseEntity<>(
 				new TratarErros(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage())
