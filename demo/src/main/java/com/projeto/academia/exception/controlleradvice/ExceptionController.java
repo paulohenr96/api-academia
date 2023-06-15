@@ -17,6 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.projeto.academia.exception.MensalidadePagaException;
+import com.projeto.academia.exception.TokenException;
 import com.projeto.academia.exception.TratarErros;
 import com.projeto.academia.exception.UserNotFoundException;
 
@@ -90,5 +91,16 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 				,HttpStatus.INTERNAL_SERVER_ERROR);
 			
 	}
+	
+	@ExceptionHandler (TokenException.class)
+	public ResponseEntity<Object> handleTokenException(TokenException ex
+			){
+		
+		return new ResponseEntity<>(
+				new TratarErros(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage())
+				,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+	}
+	
 
 }

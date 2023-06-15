@@ -14,10 +14,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.projeto.academia.exception.TokenException;
 import com.projeto.academia.exception.TratarErros;
 import com.projeto.academia.security.Constantes;
 import com.projeto.academia.security.CriadorToken;
 import com.projeto.academia.security.ObjectToken;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class FiltroToken extends OncePerRequestFilter{
 
@@ -47,7 +53,7 @@ public class FiltroToken extends OncePerRequestFilter{
 			}		
 			filterChain.doFilter(request, response);
 
-		} catch (Exception e) {
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException  e) {
 			// TODO Auto-generated catch block
 			TratarErros tratarErros = new TratarErros(HttpStatus.NOT_ACCEPTABLE,"Problema no Token => "+e.getMessage());
             StringBuilder sb=new StringBuilder();
@@ -60,8 +66,8 @@ public class FiltroToken extends OncePerRequestFilter{
 			sb.append("\"}");
 			response.getWriter().write(sb.toString());	
             response.getWriter().flush();
-            e.printStackTrace();
-		
+//            e.printStackTrace();
+//            throw new TokenException(e.getMessage());
 		}
 		
 

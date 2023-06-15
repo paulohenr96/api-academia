@@ -36,7 +36,7 @@ public class CriadorToken {
 		return Constantes.PREFIXO_TOKEN.concat(" ").concat(compact);
 	}
 
-	public static ObjectToken criarToken(String chave) throws Exception{
+	public static ObjectToken criarToken(String chave) {
 		// TODO Auto-generated method stub
 		
 		ObjectToken objectToken;
