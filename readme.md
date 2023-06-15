@@ -95,4 +95,4 @@ Este projeto está licenciado sob a licença MIT. Consulte o arquivo `LICENSE` p
 
 ## Contato
 
-Se você tiver alguma dúvida ou sugestão em relação a este projeto, entre em contato através do email: seu-email@example.com
+Se você tiver alguma dúvida ou sugestão em relação a este projeto, entre em contato através do email: paulohsantos281096@gmail.com
