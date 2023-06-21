@@ -3,6 +3,7 @@ package com.projeto.academia.dto;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto.academia.model.Role;
 
 public class UsuarioDTO {
@@ -18,6 +19,10 @@ public class UsuarioDTO {
 	
 	private Set<Role> roles;
 	
+	private String username;
+	
+	@JsonIgnore
+	private String password;
 	
 	public UsuarioDTO(Long id,String name, String email, String secondName,Set<Role> roles) {
 		
@@ -77,7 +82,17 @@ public UsuarioDTO(Long id,String name, String email, String secondName) {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 }

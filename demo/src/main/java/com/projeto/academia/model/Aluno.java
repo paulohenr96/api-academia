@@ -40,6 +40,23 @@ public class Aluno {
 
 
 
+	public Aluno(String name, String secondName) {
+		super();
+		this.name = name;
+		this.secondName = secondName;
+	}
+
+	public Aluno(String name, String secondName, Date dataDeNascimento, Date dataDeMatricula) {
+		this.name = name;
+		this.secondName = secondName;
+		this.dataDeNascimento = dataDeNascimento;
+		this.dataDeMatricula = dataDeMatricula;
+	}
+
+	public Aluno() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.dto.UsuarioDTO;
 import com.projeto.academia.exception.UserNotFoundException;
+import com.projeto.academia.mapper.MapperUsuario;
 import com.projeto.academia.model.Role;
 import com.projeto.academia.model.Usuario;
 import com.projeto.academia.repository.UsuarioRepository;
@@ -39,37 +41,23 @@ public class UsuarioServiceImpl {
 		usuarioRepository.save(usuario);
 	}
 
-	public List<UsuarioDTO> findAll(PageRequest of) {
+	public Page<UsuarioDTO> findAll(PageRequest of) {
 
-		return usuarioRepository.findAll(of).stream()
-				.map(usuario -> new UsuarioDTO(usuario.getId(), usuario.getName(),
-				usuario.getEmail(), usuario.getSecondName(), usuario.getRoles()))
-				.collect(Collectors.toList());
+		return usuarioRepository.findAll(of).map(MapperUsuario::toDTO);
 	}
 
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
-		try {
-			usuarioRepository.deleteById(id);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		if (!usuarioRepository.existsById(id)) {
 			throw new UserNotFoundException(id);
 		}
-
+		usuarioRepository.deleteById(id);
+		
 	}
 
 	public UsuarioDTO findById(Long id) {
 		// TODO Auto-generated method stub
 
-		
-
-		return usuarioRepository.findById(id)
-				.map(usuario->new UsuarioDTO(usuario.getId(),
-						usuario.getName(),
-						usuario.getEmail(),
-						usuario.getSecondName(),
-						usuario.getRoles()))
+		return usuarioRepository.findById(id).map(MapperUsuario::toDTO)
 				.orElseThrow(() -> new UserNotFoundException(id));
 	}
 
@@ -88,12 +76,13 @@ public class UsuarioServiceImpl {
 
 	public Sessao logar(LoginDTO login) {
 		Sessao sessao = new Sessao();
-		
+
 //		usuarioRepository.loadByUserName(login.getUsername()).stream().map(u-> new Sessao())
 //		usuarioRepository.loadByUserName(login.getUsername()).map(u->new Sessao())
 
-		 Optional<Usuario> loadByUserName = usuarioRepository.loadByUserName(login.getUsername());
-		if (loadByUserName.isEmpty()|| !passwordService.match(login.getPassword(), loadByUserName.get().getPassword())) {
+		Optional<Usuario> loadByUserName = usuarioRepository.loadByUserName(login.getUsername());
+		if (loadByUserName.isEmpty()
+				|| !passwordService.match(login.getPassword(), loadByUserName.get().getPassword())) {
 			throw new UsernameNotFoundException("Login ou senha incorreto.");
 		}
 		Usuario usuario = loadByUserName.get();

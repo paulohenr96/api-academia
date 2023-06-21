@@ -105,11 +105,11 @@ private final AlunoService alunoService;
 	
 	@GetMapping("/devedores/{mes}")
 	@ApiOperation("Consultar todos os alunos que não pagaram determinado mês")
-	public ResponseEntity<PaginacaoDTO<Aluno>> getAllAlunosDevedores(
+	public ResponseEntity<Page<Aluno>> getAllAlunosDevedores(
 			@PathVariable int mes
 			,@RequestParam("page") int page
 			,@RequestParam("size") int size){
 		
-		return new ResponseEntity<PaginacaoDTO<Aluno>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
+		return new ResponseEntity<Page<Aluno>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
 	}
 }

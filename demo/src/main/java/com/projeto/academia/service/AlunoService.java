@@ -16,6 +16,7 @@ import com.projeto.academia.dto.MensalidadeDTO;
 import com.projeto.academia.dto.PaginacaoDTO;
 import com.projeto.academia.exception.MensalidadePagaException;
 import com.projeto.academia.exception.UserNotFoundException;
+import com.projeto.academia.mapper.MapperMensalidade;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.model.Mensalidade;
 import com.projeto.academia.model.Usuario;
@@ -52,14 +53,7 @@ public class AlunoService {
 
 	}
 
-	public void update(Usuario novo, Long id) {
-		// TODO Auto-generated method stub
-	}
-
-	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	public void pagarMensalidade(Long id, MensalidadeDTO mensalidadeReq) {
 		// TODO Auto-generated method stub
@@ -76,11 +70,14 @@ public class AlunoService {
 	public List<MensalidadeDTO> findAllMensalidadeAluno(Long id) {
 		// TODO Auto-generated method stub
 		return mensalidadeRepository.mensalidadesAluno(id).stream()
-				.map(m -> new MensalidadeDTO(m.getId(), m.getDataPagamento())).collect(Collectors.toList());
+				.map(MapperMensalidade::toDTO).collect(Collectors.toList());
 	}
 
 	public String deleteMensalidadeAluno(Long idMensalidade) {
 		// TODO Auto-generated method stub
+		if (!mensalidadeRepository.existsById(idMensalidade)) {
+			throw new RuntimeException("Esta mensalidade nao existe.");
+		}
 		mensalidadeRepository.deleteById(idMensalidade);
 		return "{}";
 	}
@@ -108,16 +105,10 @@ public class AlunoService {
 		return "ok";
 	}
 
-	public PaginacaoDTO findAllAlunosDevedores(int mes, int page, int size) {
+	public Page<Aluno> findAllAlunosDevedores(int mes, int page, int size) {
 		// TODO Auto-generated method stub
-		Long linhas = alunoRepository.contarTotalAlunosDevedores(mes);
-		int totalPaginas=(int) (linhas%size==0 ? linhas/size : linhas/size + 1);
+		Page<Aluno> findAllAlunosDevedores = alunoRepository.findAllAlunosDevedores(mes,PageRequest.of(page, size));
 		
-		
-		int offset=page;
-		List<Aluno> findAllAlunosDevedores = alunoRepository.findAllAlunosDevedores(mes,offset,size);
-		
-		PaginacaoDTO paginacaoDTO= new PaginacaoDTO(findAllAlunosDevedores, page, size, linhas, totalPaginas);
-		return paginacaoDTO;
+		return findAllAlunosDevedores;
 	}
 }

@@ -40,6 +40,20 @@ public class Usuario {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
+	public Usuario(@NotNull(message = "Insira um username") String username,
+			@NotNull(message = "Insira um nome") String name, @NotNull(message = "Insira um email") String email,
+			@NotNull(message = "Insira um sobrenome") String secondName, String password) {
+		super();
+		this.username = username;
+		this.name = name;
+		this.email = email;
+		this.secondName = secondName;
+		this.password = password;
+	}
+
+	public Usuario() {
+	}
+
 	public String getUsername() {
 		return username;
 	}
