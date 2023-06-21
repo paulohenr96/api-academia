@@ -10,7 +10,10 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
+@ApiModel("Mensalidade do aluno")
 public class Mensalidade {
 
 	@Id

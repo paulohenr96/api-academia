@@ -21,10 +21,14 @@ import com.projeto.academia.dto.UsuarioDTO;
 import com.projeto.academia.model.Usuario;
 import com.projeto.academia.service.UsuarioServiceImpl;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 
 
 @RestController
 @RequestMapping("usuario/")
+@Api(tags="CRUD dos usuários do serviço (administradores e secretarios)")
 public class UsuarioController {
 
 	private final UsuarioServiceImpl usuarioService;
@@ -38,12 +42,14 @@ public class UsuarioController {
 	
 	
 	@PostMapping(consumes = "application/json")
+	@ApiOperation("Cadastra usuário novo")
 	public ResponseEntity<String> salvar(@Valid @RequestBody Usuario usuario){		
 		usuarioService.salvar(usuario);
 		return new ResponseEntity("ok",HttpStatus.OK);
 	}
 	
 	@GetMapping
+	@ApiOperation("Consulta todos os usuários")
 	public ResponseEntity<List<UsuarioDTO>> getAll(@RequestParam(name = "page",defaultValue = "1") int page,
 			@RequestParam(name = "size",defaultValue = "3")int size){
 		PageRequest of = PageRequest.of(page, size);
@@ -51,17 +57,20 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation("Consulta um usuário pelo ID")
 	public ResponseEntity<UsuarioDTO> getById(@PathVariable Long id){		
 		return new ResponseEntity(usuarioService.findById(id),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation("Remover um usuário")
 	public ResponseEntity<String> delete(@PathVariable Long id){
 		usuarioService.delete(id);
 		return new ResponseEntity("{}",HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation("Atualizar usuário")
 	public ResponseEntity<String> update(@PathVariable Long id,@RequestBody Usuario usuarioNovo){		
 		usuarioService.update(usuarioNovo,id);
 		return new ResponseEntity("ok",HttpStatus.OK);

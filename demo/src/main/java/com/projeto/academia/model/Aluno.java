@@ -16,7 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
+@ApiModel("Aluno matriculado na academia")
 public class Aluno {
 
 	

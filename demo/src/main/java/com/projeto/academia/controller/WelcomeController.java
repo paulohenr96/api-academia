@@ -8,6 +8,6 @@ public class WelcomeController {
 
 	@PostMapping
 	public String home() {
-		return "Bem vindo à minha api";
+		return "Bem vindo à minha api. Para efetuar o login acesse /login";
 	}
 }

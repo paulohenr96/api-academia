@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
+@ApiModel("Role para a classe Usuario")
 public class Role {
 	
 	@Id

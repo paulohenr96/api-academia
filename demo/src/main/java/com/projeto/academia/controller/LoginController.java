@@ -12,7 +12,11 @@ import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.security.Sessao;
 import com.projeto.academia.service.UsuarioServiceImpl;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(tags="Realizar o login")
 public class LoginController {
 
 	
@@ -23,7 +27,7 @@ public class LoginController {
 	}
 	
 	
-	@PostMapping("/login")
+	@PostMapping("/login")@ApiOperation("Efetua a autenticação do usuário que não está usando token")
 	ResponseEntity<Sessao> logar(@Valid @RequestBody LoginDTO login){return new ResponseEntity(service.logar(login), HttpStatus.OK);}
 	
 }
