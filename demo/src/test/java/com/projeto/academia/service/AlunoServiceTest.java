@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.projeto.academia.dto.AlunoDTO;
 import com.projeto.academia.dto.MensalidadeDTO;
 import com.projeto.academia.exception.MensalidadePagaException;
 import com.projeto.academia.exception.UserNotFoundException;
+import com.projeto.academia.mapper.MapperAluno;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.model.Mensalidade;
 import com.projeto.academia.repository.AlunoRepository;
@@ -91,7 +94,7 @@ public class AlunoServiceTest {
 
 		when(repository.findById(anyLong())).thenReturn(Optional.of(aluno));
 
-		Aluno saida = service.findAlunoById(1L);
+		AlunoDTO saida = service.findAlunoById(1L);
 		assertEquals(aluno.getId(), saida.getId());
 
 	}
@@ -298,12 +301,13 @@ public class AlunoServiceTest {
 	@Test
 	void testarFindAllAlunosDevedoresComSucesso() {
 		when(repository.findAllAlunosDevedores(anyInt(), any(PageRequest.class))).thenReturn(new PageImpl<>(lista));
-		
-		Page<Aluno> saida = service.findAllAlunosDevedores(1, 0, 4);
+		int mes=1;
+		Page<AlunoDTO> saida = service.findAllAlunosDevedores(mes, 0, 4);
 		
 		assertEquals(saida.isFirst(),true);
 		assertEquals(saida.isLast(),true);
 
-		assertEquals(saida.getContent(),lista);
+		
+		assertEquals(saida.getContent().size(),lista.stream().map(MapperAluno::toDTO).collect(Collectors.toList()).size());
 	}
 }

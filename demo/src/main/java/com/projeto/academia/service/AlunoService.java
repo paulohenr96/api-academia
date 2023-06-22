@@ -10,12 +10,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.projeto.academia.dto.AlunoDTO;
 import com.projeto.academia.dto.MensalidadeDTO;
 import com.projeto.academia.dto.PaginacaoDTO;
 import com.projeto.academia.exception.MensalidadePagaException;
 import com.projeto.academia.exception.UserNotFoundException;
+import com.projeto.academia.mapper.MapperAluno;
 import com.projeto.academia.mapper.MapperMensalidade;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.model.Mensalidade;
@@ -23,7 +26,7 @@ import com.projeto.academia.model.Usuario;
 import com.projeto.academia.repository.AlunoRepository;
 import com.projeto.academia.repository.MensalidadeRepository;
 
-@Controller
+@Service
 public class AlunoService {
 
 	private final AlunoRepository alunoRepository;
@@ -48,8 +51,8 @@ public class AlunoService {
 		return 	alunoRepository.findAll(of) ;
 	}
 
-	public Aluno findAlunoById(Long id) {
-		return alunoRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+	public AlunoDTO findAlunoById(Long id) {
+		return alunoRepository.findById(id).map(MapperAluno::toDTO).orElseThrow(() -> new UserNotFoundException(id));
 
 	}
 
@@ -105,10 +108,10 @@ public class AlunoService {
 		return "ok";
 	}
 
-	public Page<Aluno> findAllAlunosDevedores(int mes, int page, int size) {
+	public Page<AlunoDTO> findAllAlunosDevedores(int mes, int page, int size) {
 		// TODO Auto-generated method stub
-		Page<Aluno> findAllAlunosDevedores = alunoRepository.findAllAlunosDevedores(mes,PageRequest.of(page, size));
 		
-		return findAllAlunosDevedores;
+		return alunoRepository
+				.findAllAlunosDevedores(mes,PageRequest.of(page, size)).map(MapperAluno::toDTO);
 	}
 }

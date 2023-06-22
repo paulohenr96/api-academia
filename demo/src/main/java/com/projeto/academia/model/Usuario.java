@@ -22,27 +22,21 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotNull(message = "Insira um username")
 	private String username;
 
-	@NotNull(message = "Insira um nome")
 	private String name;
 
-	@NotNull(message = "Insira um email")
 	private String email;
 
-	@NotNull(message = "Insira um sobrenome")
 	private String secondName;
 
 	private String password;
-	
+
 	@JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
-	public Usuario(@NotNull(message = "Insira um username") String username,
-			@NotNull(message = "Insira um nome") String name, @NotNull(message = "Insira um email") String email,
-			@NotNull(message = "Insira um sobrenome") String secondName, String password) {
+	public Usuario(String username, String name, String email, String secondName, String password) {
 		super();
 		this.username = username;
 		this.name = name;
@@ -52,6 +46,17 @@ public class Usuario {
 	}
 
 	public Usuario() {
+	}
+
+	public Usuario(Long l, String username, String name, String email, String secondName, String password) {
+		// TODO Auto-generated constructor stub
+		this.id = l;
+
+		this.username = username;
+		this.name = name;
+		this.email = email;
+		this.secondName = secondName;
+		this.password = password;
 	}
 
 	public String getUsername() {

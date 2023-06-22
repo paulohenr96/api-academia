@@ -3,6 +3,8 @@ package com.projeto.academia.dto;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto.academia.model.Role;
 
@@ -10,15 +12,15 @@ public class UsuarioDTO {
 	
 	private Long id;
 	
-	
+	@NotNull(message = "Insira um nome")
 	private String name;
-	
+	@NotNull(message = "Insira um email")
 	private String email;
-	
+	@NotNull(message = "Insira um sobrenome")
 	private String secondName;
 	
 	private Set<Role> roles;
-	
+	@NotNull(message = "Insira um username")
 	private String username;
 	
 	@JsonIgnore

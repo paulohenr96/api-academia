@@ -30,6 +30,11 @@ public class MensalidadeDTO {
 
 	}
 
+	public MensalidadeDTO(Long l) {
+		// TODO Auto-generated constructor stub
+		this.id=l;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -5,19 +5,20 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableJpaRepositories(basePackages = "com.projeto.academia.repository")
+import com.projeto.academia.repository.UsuarioRepository;
+import com.projeto.academia.service.UsuarioDetailsService;
+
+
+//@ComponentScan(basePackages =  {"com.projeto.academia.controller",
+//		"com.projeto.academia.service",
+//		"com.projeto.academia.security",
+//		"com.projeto.academia.exception"})
 @EnableAutoConfiguration
 @SpringBootApplication
-@ComponentScan (basePackages = {"com.projeto.academia.controller",
-									"com.projeto.academia.service",
-									"com.projeto.academia.security",
-									"com.projeto.academia.exception.controlleradvice",
-									"com.projeto.academia.swagger"
-									})
-@EntityScan(basePackages = "com.projeto.academia.model")
-
+//@EnableJpaRepositories(basePackages = {"com.projeto.academia.repository"})
 public class DemoApplication {
 
 	public static void main(String[] args) {

@@ -23,6 +23,9 @@ public class MapperUsuario {
 		if (usuario.getUsername()!=null) {
 			usuarioDTO.setUsername(usuario.getUsername());
 		}
+		if (usuario.getEmail()!=null) {
+			usuarioDTO.setEmail(usuario.getEmail());
+		}
 		if (usuario.getRoles()!=null) {
 			usuarioDTO.setRoles(usuario.getRoles());
 		}

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projeto.academia.dto.AlunoDTO;
 import com.projeto.academia.dto.MensalidadeDTO;
 import com.projeto.academia.dto.PaginacaoDTO;
 import com.projeto.academia.model.Aluno;
@@ -26,8 +28,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@RestController
-@RequestMapping("/aluno")
+@Controller
+@RequestMapping("alunos")
 @Api(tags="CRUD dos alunos da academia")
 public class AlunoController {
 	
@@ -40,11 +42,11 @@ private final AlunoService alunoService;
 		this.alunoService=alunoService;
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("{id}")
 	@ApiOperation("Remover aluno")
 	public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
 		
-		return new ResponseEntity<Object>(alunoService.removerAluno(id),HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Object>(alunoService.removerAluno(id),HttpStatus.OK);
 	}
 	
 	
@@ -56,9 +58,9 @@ private final AlunoService alunoService;
 	}
 	@GetMapping("/{id}")
 	@ApiOperation("Consultar aluno")
-	public ResponseEntity<Aluno> getAluno(@PathVariable Long id){
+	public ResponseEntity<AlunoDTO> getAluno(@PathVariable Long id){
 		
-		return new ResponseEntity<Aluno>(alunoService.findAlunoById(id),HttpStatus.FOUND);
+		return new ResponseEntity<AlunoDTO>(alunoService.findAlunoById(id),HttpStatus.FOUND);
 	}
 	
 	@PostMapping
@@ -73,7 +75,9 @@ private final AlunoService alunoService;
 	
 	@PostMapping("/{id}/mensalidade")
 	@ApiOperation("Pagar mensalidade do aluno")
-	public ResponseEntity<String> pagarMensalidadeAluno(@ApiParam("ID do aluno") @PathVariable Long id,@ApiParam("DTO contendo as informações da mensalidade") @Valid @RequestBody MensalidadeDTO mensalidade){
+	public ResponseEntity<String> pagarMensalidadeAluno
+			(@ApiParam("ID do aluno") @PathVariable Long id,
+			@ApiParam("DTO contendo as informações da mensalidade") @Valid @RequestBody MensalidadeDTO mensalidade){
 		
 		alunoService.pagarMensalidade(id,mensalidade);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
@@ -92,7 +96,7 @@ private final AlunoService alunoService;
 	@ApiOperation("Remover todas as mensalidades do aluno")
 	public ResponseEntity<Object> deleteMensalidadeAluno(@PathVariable Long idMensalidade){
 		
-		return new ResponseEntity<>(alunoService.deleteMensalidadeAluno(idMensalidade),HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(alunoService.deleteMensalidadeAluno(idMensalidade),HttpStatus.OK);
 
 	}
 	
@@ -105,11 +109,11 @@ private final AlunoService alunoService;
 	
 	@GetMapping("/devedores/{mes}")
 	@ApiOperation("Consultar todos os alunos que não pagaram determinado mês")
-	public ResponseEntity<Page<Aluno>> getAllAlunosDevedores(
+	public ResponseEntity<Page<AlunoDTO>> getAllAlunosDevedores(
 			@PathVariable int mes
 			,@RequestParam("page") int page
 			,@RequestParam("size") int size){
 		
-		return new ResponseEntity<Page<Aluno>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
+		return new ResponseEntity<Page<AlunoDTO>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
 	}
 }

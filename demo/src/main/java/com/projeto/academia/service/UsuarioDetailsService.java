@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.projeto.academia.model.Usuario;
 import com.projeto.academia.repository.UsuarioRepository;
 
-@Service
+@Component
 public class UsuarioDetailsService implements UserDetailsService {
 
 	private final UsuarioRepository usuarioRepository;

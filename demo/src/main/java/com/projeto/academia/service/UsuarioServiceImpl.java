@@ -24,7 +24,6 @@ import com.projeto.academia.security.ObjectToken;
 import com.projeto.academia.security.Sessao;
 
 @Service
-@Component
 public class UsuarioServiceImpl {
 
 	private final UsuarioRepository usuarioRepository;

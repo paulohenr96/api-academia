@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 
 @RestController
-@RequestMapping("usuario/")
+@RequestMapping("usuarios")
 @Api(tags="CRUD dos usuários do serviço (administradores e secretarios)")
 public class UsuarioController {
 
@@ -50,7 +51,7 @@ public class UsuarioController {
 	
 	@GetMapping
 	@ApiOperation("Consulta todos os usuários")
-	public ResponseEntity<List<UsuarioDTO>> getAll(@RequestParam(name = "page",defaultValue = "1") int page,
+	public ResponseEntity<Page<UsuarioDTO>> getAll(@RequestParam(name = "page",defaultValue = "1") int page,
 			@RequestParam(name = "size",defaultValue = "3")int size){
 		PageRequest of = PageRequest.of(page, size);
 		return new ResponseEntity(usuarioService.findAll(of),HttpStatus.OK);
