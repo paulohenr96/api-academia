@@ -1,5 +1,7 @@
 # API de Academia
-
+<p align="center">
+  <img src="image.png" alt="alt text">
+</p>
 Esta é uma API para gerenciamento de academias, oferecendo recursos para manipulação de alunos, usuários e autenticação.
 
 ## Tecnologias utilizadas
