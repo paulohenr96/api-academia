@@ -15,6 +15,7 @@ Esta é uma API para gerenciamento de academias, oferecendo recursos para manipu
 - JSON Web Token (JWT)
 - Swagger
 
+
 ## Configuração do ambiente
 
 1. Certifique-se de ter o JDK (Java Development Kit) instalado em sua máquina. Você pode baixá-lo e instalá-lo a partir do site oficial da Oracle.
