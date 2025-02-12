@@ -1,0 +1,5 @@
+package com.projeto.academia.beans;
+
+public class AdminInitializerBean {
+
+}
