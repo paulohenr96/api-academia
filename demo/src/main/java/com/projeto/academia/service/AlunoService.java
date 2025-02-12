@@ -31,7 +31,6 @@ public class AlunoService {
 
 	private final AlunoRepository alunoRepository;
 	private final MensalidadeRepository mensalidadeRepository;
-
 	public AlunoService(AlunoRepository alunoRepository, MensalidadeRepository mensalidadeRepository) {
 		// TODO Auto-generated constructor stub
 		this.alunoRepository = alunoRepository;

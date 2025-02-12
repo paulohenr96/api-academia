@@ -82,6 +82,7 @@ public class UsuarioServiceImpl {
 		Optional<Usuario> loadByUserName = usuarioRepository.loadByUserName(login.getUsername());
 		if (loadByUserName.isEmpty()
 				|| !passwordService.match(login.getPassword(), loadByUserName.get().getPassword())) {
+			System.out.println("Erro !");
 			throw new UsernameNotFoundException("Login ou senha incorreto.");
 		}
 		Usuario usuario = loadByUserName.get();

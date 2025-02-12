@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @ComponentScan(basePackages =  {"com.projeto.academia.controller",
+		"com.projeto.academia.beans",
 		"com.projeto.academia.service",
 		"com.projeto.academia.security",
 		"com.projeto.academia.exception"})

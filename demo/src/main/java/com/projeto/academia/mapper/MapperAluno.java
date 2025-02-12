@@ -33,4 +33,27 @@ public class MapperAluno {
 		
 		return alunoDTO;
 	}
+	
+	
+	public static Aluno toEntity(AlunoDTO alunoDTO) {
+        Aluno aluno = new Aluno();
+
+        if (alunoDTO.getName() != null) {
+            aluno.setName(alunoDTO.getName());
+        }
+        if (alunoDTO.getId() != null) {
+            aluno.setId(alunoDTO.getId());
+        }
+        if (alunoDTO.getSecondName() != null) {
+            aluno.setSecondName(alunoDTO.getSecondName());
+        }
+        if (alunoDTO.getDataDeMatricula() != null) {
+            aluno.setDataDeMatricula(alunoDTO.getDataDeMatricula());
+        }
+        if (alunoDTO.getDataDeNascimento() != null) {
+            aluno.setDataDeNascimento(alunoDTO.getDataDeNascimento());
+        }
+
+        return aluno;
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projeto.academia.dto.AlunoDTO;
 import com.projeto.academia.dto.MensalidadeDTO;
 import com.projeto.academia.dto.PaginacaoDTO;
+import com.projeto.academia.mapper.MapperAluno;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.service.AlunoService;
 
@@ -65,9 +66,9 @@ private final AlunoService alunoService;
 	
 	@PostMapping
 	@ApiOperation("Cadastrar novo aluno")
-	public ResponseEntity<String> salvarAluno(@RequestBody Aluno aluno){
+	public ResponseEntity<String> salvarAluno(@RequestBody AlunoDTO alunoDTO){
 		
-		alunoService.salvarAluno(aluno);
+		alunoService.salvarAluno(MapperAluno.toEntity(alunoDTO));
 		return new ResponseEntity<String>("ok",HttpStatus.CREATED);
 	}
 	
