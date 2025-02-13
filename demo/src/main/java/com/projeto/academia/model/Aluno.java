@@ -1,12 +1,10 @@
 package com.projeto.academia.model;
 
-import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,10 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
-import io.swagger.annotations.ApiModel;
-
 @Entity
-@ApiModel("Aluno matriculado na academia")
+//@ApiModel("Aluno matriculado na academia")
 public class Aluno {
 
 	

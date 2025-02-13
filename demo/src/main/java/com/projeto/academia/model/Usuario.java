@@ -10,12 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
-
-import io.swagger.annotations.ApiModel;
 
 @Entity
-@ApiModel("Classe do usuário que irá utilizar o sistema")
+//@ApiModel("Classe do usuário que irá utilizar o sistema")
 public class Usuario {
 
 	@Id

@@ -4,12 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,21 +16,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.dto.UsuarioDTO;
 import com.projeto.academia.exception.UserNotFoundException;
 import com.projeto.academia.mapper.MapperUsuario;
 import com.projeto.academia.model.Usuario;
 import com.projeto.academia.repository.UsuarioRepository;
-import com.projeto.academia.security.Constantes;
-import com.projeto.academia.security.CriadorToken;
-import com.projeto.academia.security.ObjectToken;
-import com.projeto.academia.security.Sessao;
+
+
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class UsuarioServiceTest {
 

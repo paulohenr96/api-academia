@@ -1,2 +1,3 @@
-- Edit the properties file for the database (confirm if this is needed on chatgpt)
-- Make the docker compose work
+X Edit the properties file for the database (confirm if this is needed on chatgpt)
+X Make the docker compose work
+- 
