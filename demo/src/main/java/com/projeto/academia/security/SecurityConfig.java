@@ -26,18 +26,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static final String[] SWAGGER_WHITELIST = { "/v2/api-docs", "/swagger-resources", "/swagger-resources/**",
-			"/configuration/ui", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**" };
-
+	private static final String[] SWAGGER_WHITELIST = {
+	        "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**","swagger-ui.html",
+	        "/webjars/**", "/configuration/ui", "/configuration/security"
+	    };
+//	
+//	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
 		http.csrf().disable().authorizeRequests()
-				.antMatchers("/").permitAll().antMatchers("/login/**").permitAll()
-                .antMatchers(SWAGGER_WHITELIST).permitAll()
+				.mvcMatchers("/").permitAll()
+				.mvcMatchers("/login/**").permitAll()
+                .mvcMatchers(SWAGGER_WHITELIST).permitAll()
 
-				.antMatchers("/usuario/**").hasAnyRole("ADMINISTRADOR", "SECRETARIO")
-				.antMatchers("/aluno/**").hasAnyRole("ADMINISTRADOR", "SECRETARIO")
+				.mvcMatchers("/usuario/**").hasAnyRole("ADMINISTRADOR", "SECRETARIO")
+				.mvcMatchers("/aluno/**").hasAnyRole("ADMINISTRADOR", "SECRETARIO")
 
 				.anyRequest().authenticated().and()
 				.addFilterAfter(new FiltroToken(), UsernamePasswordAuthenticationFilter.class)

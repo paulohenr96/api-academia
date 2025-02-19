@@ -7,15 +7,7 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.projeto.academia.dto.AlunoDTO;
 import com.projeto.academia.dto.MensalidadeDTO;
@@ -23,95 +15,85 @@ import com.projeto.academia.mapper.MapperAluno;
 import com.projeto.academia.model.Aluno;
 import com.projeto.academia.service.AlunoService;
 
-@Controller
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@RestController
 @RequestMapping("alunos")
-//@Api(tags="CRUD dos alunos da academia")
+@Tag(name = "Alunos", description = "CRUD dos alunos da academia")
 public class AlunoController {
-	
-	
-private final AlunoService alunoService;
-	
-	public AlunoController(AlunoService alunoService) {
-		// TODO Auto-generated constructor stub
-		
-		this.alunoService=alunoService;
-	}
-	
-	@DeleteMapping("{id}")
-//	@ApiOperation("Remover aluno")
-	public ResponseEntity<Object> deleteAluno(@PathVariable Long id){
-		
-		return new ResponseEntity<Object>(alunoService.removerAluno(id),HttpStatus.OK);
-	}
-	
-	
-	@GetMapping
-//	@ApiOperation("Todos os alunos")
-	public ResponseEntity<Page<Aluno>> getAllAlunos(@RequestParam("page") int page,@RequestParam("size") int size){
-		
-		return new ResponseEntity<>(alunoService.findAllAluno(page,size),HttpStatus.OK);
-	}
-	@GetMapping("/{id}")
-//	@ApiOperation("Consultar aluno")
-	public ResponseEntity<AlunoDTO> getAluno(@PathVariable Long id){
-		
-		return new ResponseEntity<AlunoDTO>(alunoService.findAlunoById(id),HttpStatus.FOUND);
-	}
-	
-	@PostMapping
-//	@ApiOperation("Cadastrar novo aluno")
-	public ResponseEntity<String> salvarAluno(@RequestBody AlunoDTO alunoDTO){
-		
-		alunoService.salvarAluno(MapperAluno.toEntity(alunoDTO));
-		return new ResponseEntity<String>("ok",HttpStatus.CREATED);
-	}
-	
-	
-	
-	@PostMapping("/{id}/mensalidade")
-//	@ApiOperation("Pagar mensalidade do aluno")
-	public ResponseEntity<String> pagarMensalidadeAluno
-			(
-//					@ApiParam("ID do aluno") 
-					@PathVariable Long id,
-//			@ApiParam("DTO contendo as informações da mensalidade") 
-					@Valid @RequestBody MensalidadeDTO mensalidade){
-		
-		alunoService.pagarMensalidade(id,mensalidade);
-		return new ResponseEntity<String>("ok",HttpStatus.OK);
 
-	}
-	
-	@GetMapping("/{id}/mensalidade")
-//	@ApiOperation("Consultar todas as mensalidades do aluno.")
-	public ResponseEntity<List<MensalidadeDTO>> todasMensalidadesAluno(@PathVariable Long id){
-		
-		return new ResponseEntity<List<MensalidadeDTO>>(alunoService.findAllMensalidadeAluno(id),HttpStatus.OK);
+    private final AlunoService alunoService;
 
-	}
-	
-	@DeleteMapping("/mensalidade/{idMensalidade}")
-//	@ApiOperation("Remover todas as mensalidades do aluno")
-	public ResponseEntity<Object> deleteMensalidadeAluno(@PathVariable Long idMensalidade){
-		
-		return new ResponseEntity<>(alunoService.deleteMensalidadeAluno(idMensalidade),HttpStatus.OK);
+    public AlunoController(AlunoService alunoService) {
+        this.alunoService = alunoService;
+    }
 
-	}
-	
-	@PutMapping
-//	@ApiOperation("Atualizar o aluno")
-	public ResponseEntity<Object> atualizarAluno(@RequestBody Aluno alunoNovo){
-		return new ResponseEntity<>(alunoService.atualizarAluno(alunoNovo),HttpStatus.OK);
+    /**
+     * GET endpoints (Read operations)
+     */
+    @GetMapping
+    @Operation(summary = "Todos os alunos", description = "Lista paginada de alunos.")
+    public ResponseEntity<Page<Aluno>> getAllAlunos(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return ResponseEntity.ok(alunoService.findAllAluno(page, size));
+    }
 
-	}
-	
-	@GetMapping("/devedores/{mes}")
-//	@ApiOperation("Consultar todos os alunos que não pagaram determinado mês")
-	public ResponseEntity<Page<AlunoDTO>> getAllAlunosDevedores(
-			@PathVariable int mes
-			,@RequestParam("page") int page
-			,@RequestParam("size") int size){
-		
-		return new ResponseEntity<Page<AlunoDTO>>(alunoService.findAllAlunosDevedores( mes,page,size),HttpStatus.OK);
-	}
+    @GetMapping("/{id}")
+    @Operation(summary = "Consultar aluno", description = "Obtém informações de um aluno pelo ID.")
+    public ResponseEntity<AlunoDTO> getAluno(@PathVariable Long id) {
+        return ResponseEntity.ok(alunoService.findAlunoById(id));
+    }
+
+    @GetMapping("/{id}/mensalidade")
+    @Operation(summary = "Consultar mensalidades", description = "Lista todas as mensalidades pagas por um aluno.")
+    public ResponseEntity<List<MensalidadeDTO>> todasMensalidadesAluno(@PathVariable Long id) {
+        return ResponseEntity.ok(alunoService.findAllMensalidadeAluno(id));
+    }
+
+    @GetMapping("/devedores/{mes}")
+    @Operation(summary = "Consultar alunos devedores", description = "Lista alunos que não pagaram a mensalidade em um mês específico.")
+    public ResponseEntity<Page<AlunoDTO>> getAllAlunosDevedores(@PathVariable int mes, @RequestParam("page") int page, @RequestParam("size") int size) {
+        return ResponseEntity.ok(alunoService.findAllAlunosDevedores(mes, page, size));
+    }
+
+    /**
+     * POST endpoints (Create operations)
+     */
+    @PostMapping
+    @Operation(summary = "Cadastrar novo aluno", description = "Cria um novo aluno.")
+    public ResponseEntity<String> salvarAluno(@RequestBody AlunoDTO alunoDTO) {
+        alunoService.salvarAluno(MapperAluno.toEntity(alunoDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body("Aluno cadastrado com sucesso!");
+    }
+
+    @PostMapping("/{id}/mensalidade")
+    @Operation(summary = "Pagar mensalidade do aluno", description = "Registra o pagamento da mensalidade do aluno.")
+    public ResponseEntity<String> pagarMensalidadeAluno(@PathVariable Long id, @Valid @RequestBody MensalidadeDTO mensalidade) {
+        alunoService.pagarMensalidade(id, mensalidade);
+        return ResponseEntity.ok("Mensalidade paga com sucesso!");
+    }
+
+    /**
+     * PUT endpoints (Update operations)
+     */
+    @PutMapping
+    @Operation(summary = "Atualizar aluno", description = "Atualiza os dados de um aluno existente.")
+    public ResponseEntity<Object> atualizarAluno(@RequestBody Aluno alunoNovo) {
+        return ResponseEntity.ok(alunoService.atualizarAluno(alunoNovo));
+    }
+
+    /**
+     * DELETE endpoints (Delete operations)
+     */
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Remover aluno", description = "Remove um aluno pelo ID.")
+    public ResponseEntity<Object> deleteAluno(@PathVariable Long id) {
+        return ResponseEntity.ok(alunoService.removerAluno(id));
+    }
+
+    @DeleteMapping("/mensalidade/{idMensalidade}")
+    @Operation(summary = "Remover mensalidade", description = "Remove uma mensalidade pelo ID.")
+    public ResponseEntity<Object> deleteMensalidadeAluno(@PathVariable Long idMensalidade) {
+        return ResponseEntity.ok(alunoService.deleteMensalidadeAluno(idMensalidade));
+    }
 }

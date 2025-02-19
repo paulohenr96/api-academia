@@ -1,45 +1,36 @@
 package com.projeto.academia.swagger;
 
+import org.springdoc.core.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @Configuration
-//@EnableSwagger2
-@Profile("!test")
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Gym API",
+                version = "1.0",
+                description = "API for gym management",
+                contact = @Contact(name = "Paulo Henrique dos Santos", email = "paulohsantos281096@gmail.com")
+        )
+)
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "bearer",
+        bearerFormat = "JWT"
+)
 public class SwaggerConfig {
-    
-//    @Bean
-//    public Docket api() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//            .select()
-//            .apis(RequestHandlerSelectors.basePackage("com.projeto.academia.controller"))
-//            .paths(PathSelectors.any())
-//            .build()
-//            .apiInfo(apiInfo());
-//    }
-//    
-//    private ApiKey apiKey() {
-//        return new ApiKey("JWT", "Authorization", "header");
-//    }
-//
-//
-//    private List<springfox.documentation.spi.service.contexts.SecurityContext> securityContexts() {
-//        return java.util.Collections.singletonList(
-//            springfox.documentation.spi.service.contexts.SecurityContext.builder()
-//                .securityReferences(defaultAuth())
-//                .build()
-//        );
-//    }
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
-//        return java.util.Collections.singletonList(new SecurityReference("JWT", authorizationScopes));
-//    }
-//    private ApiInfo apiInfo() {
-//        return new ApiInfoBuilder()
-//            .title("API da Academia")
-//            .description("Documentação da API da Academia")
-//            .version("1.0.0")
-//            .build();
-//    }
+	 @Bean
+	    public GroupedOpenApi publicApi() {
+	        return GroupedOpenApi.builder()
+	                .group("gym-api")
+	                .pathsToMatch("/**")  // Ensures all API endpoints are included
+	                .build();
+	    }
 }

@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.projeto.academia.beans",
 		"com.projeto.academia.service",
 		"com.projeto.academia.security",
-		"com.projeto.academia.exception"})
+		"com.projeto.academia.exception","com.projeto.academia.swagger"})
 @EnableAutoConfiguration
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.projeto.academia.swagger"})
 @EnableJpaRepositories(basePackages = {"com.projeto.academia.repository"})
 public class DemoApplication {
 

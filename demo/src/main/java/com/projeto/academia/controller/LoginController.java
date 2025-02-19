@@ -12,20 +12,22 @@ import com.projeto.academia.dto.LoginDTO;
 import com.projeto.academia.security.Sessao;
 import com.projeto.academia.service.UsuarioServiceImpl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
-//@Api(tags="Realizar o login")
+@Tag(name = "Login", description = "Endpoints for user authentication")  // ✅ Defines the section in Swagger
 public class LoginController {
 
-	
-	private final UsuarioServiceImpl service;
-	
-	LoginController (UsuarioServiceImpl service){
-		this.service=service;
-	}
-	
-	
-	@PostMapping("/login")
-//	@ApiOperation("Efetua a autenticação do usuário que não está usando token")
-	ResponseEntity<Sessao> logar(@Valid @RequestBody LoginDTO login){return new ResponseEntity(service.logar(login), HttpStatus.OK);}
-	
+    private final UsuarioServiceImpl service;
+
+    LoginController(UsuarioServiceImpl service) {
+        this.service = service;
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "User Authentication", description = "Authenticates a user who is not using a token")  // ✅ Swagger operation description
+    public ResponseEntity<Sessao> logar(@Valid @RequestBody LoginDTO login) {
+        return new ResponseEntity<>(service.logar(login), HttpStatus.OK);
+    }
 }
